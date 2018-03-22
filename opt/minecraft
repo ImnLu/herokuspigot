@@ -10,7 +10,7 @@ fi
 
 # Start the TCP tunnel
 ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
-echo "Starting ngrok..."
+echo "ngrok baslatiliyor..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
@@ -39,8 +39,8 @@ case $limit in
   ;;
 esac
 
-echo "Starting: minecraft ${mc_port}"
-eval "screen -L -h 2048 -dmS minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui"
+echo "Baslatiliyor: minecraft ${mc_port}"
+eval "screen -L -h 2048 -dmS minecraft java -Xmx512M -Xms512M -jar minecraft.jar nogui"
 main_pid=$!
 
 # Flush the logfile every second, and ensure that the logfile exists
