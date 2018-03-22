@@ -4,13 +4,13 @@ mc_port=25566
 port=${1:-${PORT:-8080}}
 
 if [ -z "$NGROK_API_TOKEN" ]; then
-  echo "Serverin acilmasi icin NGROK api tokenini girmen lazim!"
+  echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
   exit 1
 fi
 
 # Start the TCP tunnel
 ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
-echo "Ngrok basliyor..."
+echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
@@ -39,8 +39,8 @@ case $limit in
   ;;
 esac
 
-echo "Basliyor: minecraft ${mc_port}"
-eval "screen -L -h 2048 -dmS minecraft java -Xmx512M -Xms512M -jar minecraft.jar nogui"
+echo "Starting: minecraft ${mc_port}"
+eval "screen -L -h 2048 -dmS minecraft java -Xmx512m -Xms512m -jar minecraft.jar nogui"
 main_pid=$!
 
 # Flush the logfile every second, and ensure that the logfile exists
